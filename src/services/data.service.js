@@ -5,7 +5,7 @@ const API_URL =
   process.env.NODE_ENV != "production"
     ?
      "https://tracking-backend-ull9.onrender.com/"
-    : "https://tracking-backend-ull9.onrender.com";
+    : "https://tracking-backend-ull9.onrender.com/";
 
       //"https://trackingtime-c5jw.onrender.com/"
     //: "https://trackingtime-c5jw.onrender.com/";
