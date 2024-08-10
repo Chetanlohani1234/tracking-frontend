@@ -48,13 +48,13 @@ const Sidebar = () => {
     <>
       <div className="main-sec-sidebar">
         <div className="inner-sec-sidebar">
-          {/* <div className="logo-sec">
-            <img src={logo} />
-            <div className="logo-sec-content">
+          <div className="logo-sec">
+            {/* <img src={logo} /> */}
+            {/* <div className="logo-sec-content">
               <h2 className="text-color-white">Hello, {data?.name}</h2>
               <p className="text-color-white">Welcome back to your dashboard</p>
-            </div>
-          </div> */}
+            </div> */}
+          </div>
           <div className="sidebar-item-list">
             <ul>
               <li className="side-bar-item text-color-white">
