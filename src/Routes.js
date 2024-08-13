@@ -35,7 +35,15 @@ import AllSubCategory from "./Pages/AllSubCategory";
 import EditCategory from "./Section/Categories/EditCategory";
 import CategoryEdit from "./Pages/CategoryEdit";
 import SubCategoryEdit from "./Pages/SubCategoryEdit";
-import EditItem from "./Section/Items/EditItems";
+import ItemsEdit from "./Pages/ItemsEdit";
+import EditSupplier from "./Pages/EditSupplier";
+import AllPO from "./Pages/AllPO";
+import InwardAdd from "./Pages/InwardAdd";
+import AllInward from "./Pages/AllInward";
+import AllPurchaseOrder from "./Pages/AllPurchaseOrder";
+import PoView from "./Pages/PoView";
+import PoEdit from "./Pages/PoEdit";
+//import InwardUpdate from "./Pages/InwardUpdate";
 
 
 export default function App() {
@@ -56,15 +64,25 @@ export default function App() {
          
          <Route exact path="/all-order" element={<AllOrders />}/>
          <Route exact path="/all-suppliers" element={<AllSupplier/>}/>
+         <Route exact path="/edit-supplier/:id" element={<EditSupplier/>}/>
          <Route exact path="/all-items" element={<AllItems />}/>
-         <Route exact path="/edit-items/:id" element={<EditItem/>}/>
+         <Route exact path="/edit-items/:id" element={<ItemsEdit/>}/>
          <Route exact path="/category" element={<AllCategory/>}/>
          <Route exact path="/edit-category/:id" element={<CategoryEdit/>}/>
 
          <Route exact path="/subcategory" element={<AllSubCategory/>}/>
          <Route exact path="/edit-subcategory/:id" element={<SubCategoryEdit/>}/>
           
-        
+         <Route exact path="/add-po" element={<AllPO/>}/>
+         <Route exact path="/all-po" element={<AllPurchaseOrder/>}/>
+         <Route exact path="/view-po/:id" element={<PoView/>}/>
+         <Route exact path="/edit-po/:id" element={<PoEdit/>}/>
+         
+         
+         <Route exact path="/add-inward" element={<InwardAdd/>}/>
+         <Route exact path="/all-inward" element={<AllInward/>}/>
+         {/* <Route exact path="/update-inward" element={<InwardUpdate/>}/> */}
+      
          
 
          <Route exact path="/user-detail/:id" element={<UserDetail />} />

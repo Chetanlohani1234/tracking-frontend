@@ -68,6 +68,7 @@ const Items = () => {
       .then((data) => {
         setAllUser(data.data.data);
         setFilteredUser(data.data);
+        setImage(data.data.image);
         setLoading(false);
       })
       .catch((error) => {
@@ -151,8 +152,7 @@ const Items = () => {
       setbtnloading(false);
     }
   };
-  
-  console.log("image",image);
+
   const deleteUser = (userId, username) => {
     DataService.deleteItem(userId).then(
       () => {
@@ -217,8 +217,6 @@ const Items = () => {
         }
   };
 
-  console.log("wewdexc",filteredUser)
-
   return (
     <>
       <ToastContainer />
@@ -278,7 +276,7 @@ const Items = () => {
                           {user?.image ? (
                             <img
                               src={
-                                "https://trackingtime-c5jw.onrender.com" +
+                                "https://tracking-backend-ull9.onrender.com" +
                                 user?.image?.url
                               }
                               ref={imgRef}
@@ -305,7 +303,7 @@ const Items = () => {
                         </Link> */}
                         <Link
                           className="action-link"
-                          to={`/edit-item/${user._id}`}
+                          to={`/edit-items/${user._id}`}
                         >
                           <i
                             id="edit_icon"

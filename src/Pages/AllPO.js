@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../Common/Sidebar";
 import UserList from "../Section/User/UserList";
 import HeaderBar from "../Common/Headerbar";
-import EditItems from "../Section/Items/EditItems";
+import PO from "../Section/PurchaseOrder/po";
 
-
-
-const ItemsEdit = () => {
+const AllPO = () => {
   useEffect(() => {
-    document.title = "All Item";
+    document.title = "All PO";
   }, []);
   return (
     <>
@@ -20,7 +18,7 @@ const ItemsEdit = () => {
           </div>
           <div className="Right-side-tarcking">
             <div className="inner-right-side-tracking">
-              <EditItems />
+              <PO />
             </div>
           </div>
         </div>
@@ -29,4 +27,4 @@ const ItemsEdit = () => {
   );
 };
 
-export default ItemsEdit;
+export default AllPO;

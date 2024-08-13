@@ -47,6 +47,14 @@ const addItem = (formData) => {
 const getAllItems = () => {
   return axios.get(API_URL + `api/item/getAll`);
 };
+
+const getItemDetailById = (id) => {
+  return axios.get(API_URL + `api/item/getById/${id}`);
+};
+const updateItem = (id, data) => {
+  return axios.put(API_URL + `api/item/updateById/${id}`, data);
+};
+
 const deleteItem = (id) => {
   return axios.delete(API_URL + `api/item/delete/${id}`);
 }
@@ -61,10 +69,46 @@ const addSupplier = (data) => {
 const getAllSupplier = () => {
   return axios.get(API_URL + `api/supplier/getAll`);
 };
+const getSupplierDetailById = (id) => {
+  return axios.get(API_URL + `api/supplier/getById/${id}`);
+};
+const updateSupplier = (id, data) => {
+  return axios.put(API_URL + `api/item/updateById/${id}`, data);
+};
 const deleteSupplier = (id) => {
   return axios.delete(API_URL + `api/supplier/delete/${id}`);
 };
+const addInward = (data) => {
+  return axios.post(API_URL + "api/inward/add",data );
+};
+const getAllInward = () => {
+  return axios.get(API_URL + `api/inward/getAll`);
+};
 
+const getIwardById = (id) => {
+  return axios.get(API_URL + `api/inward/getById/${id}`);
+};
+const updateInward = (id, data) => {
+  return axios.put(API_URL + `api/inward/updateById/${id}`, data);
+};
+const deleteInward = (id) => {
+  return axios.delete(API_URL + `api/inward/delete/${id}`);
+};
+const addPo = (data) => {
+  return axios.post(API_URL + "api/po/add",data );
+};
+const getAllPo = () => {
+  return axios.get(API_URL + `api/po/getAll`);
+};
+const getPoById = (id) => {
+  return axios.get(API_URL + `api/po/getById/${id}`);
+};
+const updatePo = (id, data) => {
+  return axios.put(API_URL + `api/po/updateById/${id}`, data);
+};
+const deletePo = (id) => {
+  return axios.delete(API_URL + `api/po/delete/${id}`);
+};
 const addCategory = (data) => {
   return axios.post(API_URL + "api/category/add",data );
 };
@@ -350,10 +394,24 @@ const DataService = {
   deleteUser,
   addItem,
   getAllItems,
+  getItemDetailById,
+  updateItem,
   deleteItem,
   addSupplier,
   getAllSupplier,
+  getSupplierDetailById,
+  updateSupplier,
   deleteSupplier,
+  addInward,
+  getAllInward,
+  getIwardById,
+  updateInward,
+  deleteInward,
+  addPo,
+  getAllPo,
+  getPoById,
+  updatePo,
+  deletePo,
   addCategory,
   getCategory,
   getCategoryById,

@@ -9,7 +9,7 @@ const styles = {
     position: "absolute",
   },
 };
-const EditItem = () => {
+const EditItems = () => {
   const inputFileRef = useRef();
   const imgRef = useRef();
   const [file, setFile] = useState(null);
@@ -20,6 +20,15 @@ const EditItem = () => {
   const [data, setData] = useState({});
   const params = useParams();
   const [name, setName] = useState("");
+  const [price,setPrice] = useState("");
+  const [description,setDescription] = useState("");
+  const [image,setImage] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [category,setCategory] = useState("");
+  const [subCategory,setSubCategory] = useState("");
+  const [subcategories, setSubcategories] = useState([]);
+  const [selectedSubcategory, setSelectedSubcategory] = useState("");
+
   const [email, setEmail] = useState("");
   const [number, setNumber] = useState("");
   const [team, setTeam] = useState("");
@@ -32,20 +41,44 @@ const EditItem = () => {
   const [address,setAddress] = useState("");
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    getUserDetail();
+    // Fetch categories when the component mounts
+    DataService.getCategory(1) // Pass the appropriate type value here
+      .then((response) => {
+        //const data = response.data.parentId._id;
+        //setCategory(data?.data || []);
+        const subcategory = response.data.data;
+        const categories = response.data.data.map(item => item.parentId); // Extract parentId from each item
+        setCategory(categories || []);
+        setSubCategory(subcategory || []);
+        setLoading(false);
+      })
+      .catch((error) => {
+        const resMessage =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setLoading(false);
+        //setError(resMessage);
+      });
   }, []);
 
-  const getUserDetail = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    getItemDetail();
+  }, []);
+
+  const getItemDetail = () => {
     setLoading(true);
-    DataService.getUserDetailById(params.id)
+    DataService.getItemDetailById(params.id)
       .then((data) => {
         setData(data.data.data);
-        setFile(data?.data?.data?.images?.url);
-        setName(data.data.data?.name);
-        setEmail(data.data.data?.email);
-        setNumber(data.data.data?.phoneNo);
-        setAddress(data.data.data?.address);
+        setName(data.data?.name);
+        setPrice(data?.data?.price);
+        setDescription(data?.data?.description);
+        setSelectedCategory(data?.data?.category);
+        setSelectedSubcategory(data?.data?.subcategory);
+
         //setTeam(data.data.data?.team);
         //setPosition(data.data.data?.position);
         //setGender(data.data.data?.gender);
@@ -80,34 +113,83 @@ const EditItem = () => {
   const triggerFile = () => {
     inputFileRef.current.click();
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setBtnLoading(true);
+  
+    // Validate required fields
+    if (!name) {
+      toast.error("Name is required");
+      setLoading(false);
+      return;
+    }
+  
+    if (!price) {
+      toast.error("Price is required");
+      setLoading(false);
+      return;
+    }
+  
+    if (!description) {
+      toast.error("Description is required");
+      setLoading(false);
+      return;
+    }
+  
+    if (!image) {
+      toast.error("Image is required");
+      setLoading(false);
+      return;
+    }
+  
+    // Create FormData object
     const formData = new FormData();
+    formData.append('name', name);
+    formData.append('price', price);
+    formData.append('description', description);
+    formData.append('category', selectedCategory);
+    formData.append('subcategory', selectedSubcategory);
+    formData.append('image', image);
+  
+    try {
+      await DataService.updateItem(formData);
+      toast.success("Updated Added Successfully!!!");
+      setTimeout(() => {
+        //getAllUser();
+        //setAddUserPopUp(false);
+        navigate("/all-items")
+      }, 2000);
+      // Clear form fields
+      setName("");
+      setPrice("");
+      setDescription("");
+      setSelectedCategory("");
+      setSelectedSubcategory("");
+      setImage(null); // Reset image
+    } catch (error) {
+      const resMessage =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+      toast.error(resMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    // if (file && file.length > 0) {
-    //   formData.append("images", file[0]);
-    // }
+  const handleChange = (e) => {
+    //setSelectedCategory(e.target.value);
+    const categoryId = e.target.value;
+    setSelectedCategory(categoryId); 
+    // Handle category selection logic here if needed
 
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("address", address);
-    formData.append("phoneNo", number);
-
-
-    DataService.updateUser(params.id, formData)
-      .then(() => {
-        toast.success("User Updated Successfully!!!");
-        setBtnLoading(false);
-        setTimeout(() => {
-          //navigate("/all-user");
-        }, 2000);
-      })
-      .catch((error) => {
-        toast.error(error.response.data.message);
-        setBtnLoading(false);
-      });
+        // Filter subcategories based on selected category
+        if (categoryId) {
+          const filteredSubcategories = subCategory.filter(cat => cat.parentId._id === categoryId);
+          setSubcategories(filteredSubcategories);
+        } else {
+          setSubcategories([]);
+        }
   };
 
   return (
@@ -116,82 +198,98 @@ const EditItem = () => {
       {/* <div className="main-sec-userDetal-sec"> */}
       <div className="inner-sec-userDetail main-sec-dashboard">
         <div className="top-bar-content ">
-          <h2>Edit Detail</h2>
+          <h2>Edit Item</h2>
         </div>
 
         <div className="sub-inner-userDetail">
           <div className="left-side-userDetail">
-            <div className="profile-image-sec">
-              {data?.images ? (
-                <img
-                  ref={imgRef}
-                  src={
-                    "https://trackingtime-c5jw.onrender.com" + data?.images?.url
-                  }
-                  alt="profie image"
-                  onClick={triggerFile}
+            <div className="label-filed">
+            <label>
+                  Item Name <span className="red-required">* </span>
+                </label>
+                <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Enter Item Name"
                 />
-              ) : (
-                <img
-                  src={img}
-                  ref={imgRef}
-                  alt="profie image"
-                  onClick={triggerFile}
+            </div>
+            <div className="label-filed">
+            <label>
+                Item Price <span className="red-required">* </span>
+                </label>
+                <input
+                    type="number"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    placeholder="Enter Item Price"
                 />
-              )}
-              <input
-                type="file"
-                ref={inputFileRef}
-                style={styles.input}
-                accept="image/*"
-                onChangeCapture={onFileChangeCapture}
-              />
-            </div>
-            <div className="label-filed">
-              <label>User Name <span className="red-required">* </span></label>
-            </div>
-            <div className="label-filed">
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div className="label-filed">
-              <label>Email Address <span className="red-required">* </span></label>
-            </div>
-            <div className="label-filed">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="label-filed">
-              <label>Phone Number <span className="red-required">* </span></label>
-            </div>
-            <div className="label-filed">
-              <input
-                type="number"
-                value={number}
-                onChange={(e) => setNumber(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="right-side-userDetail">
-            <div className="label-filed">
-              <label>Address <span className="red-required">* </span></label>
-            </div>
-            <div className="label-filed">
-              <input
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-              />
             </div>
 
+            <div className="label-filed">
+              <label>
+                    Item Description <span className="red-required"></span>
+                </label>
+                <textarea
+                    required
+                    rows={5}
+                    cols={60}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Enter Item Description"
+                />
+            </div>
+
+            <div className="label-filed">
+            <label>
+                    Item Category <span className="red-required">* </span>
+                </label>
+                <select 
+                    
+                    value={selectedCategory} 
+                    onChange={handleChange}
+                    //onChange={(e) => setSelectedCategory(e.target.value)}
+                >
+                        <option value="">Select Category</option>
+                      {category && category.map((categories) => (
+                        <option key={categories._id} value={categories._id}>
+                          {categories.category}
+                        </option>
+                      ))}
+                </select>
+            </div>
+
+            <div className="label-filed">
+            <label>
+                    Item Subcategory <span className="red-required"></span>
+                </label>
+                <select
+                  value={selectedSubcategory} 
+                   onChange={(e) => setSelectedSubcategory(e.target.value)}
+            >
+              <option value="">Select Subcategory</option>
+              {subcategories && subcategories.map((subcat) => (
+                <option key={subcat._id} value={subcat._id}>
+                  {subcat.category}
+                </option>
+              ))}
+              </select>
+            </div>
+
+            <div>
+            <label>
+                    Image Upload <span className="red-required">* </span>
+                </label>
+                <input
+                    type="file"
+                    //accept="image/*"
+                    //onChange={(e) => setImage(e.target.value)}
+                    onChange={(e) => setImage(e.target.files[0])}
+                />
+            </div>
 
           </div>
+
         </div>
         <div className="bottom-btn-sec">
           <button
@@ -212,4 +310,4 @@ const EditItem = () => {
   );
 };
 
-export default EditItem;
+export default EditItems;

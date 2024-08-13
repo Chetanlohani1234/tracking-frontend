@@ -9,7 +9,7 @@ const styles = {
     position: "absolute",
   },
 };
-const EditUserList = () => {
+const SupplierEdit = () => {
   const inputFileRef = useRef();
   const imgRef = useRef();
   const [file, setFile] = useState(null);
@@ -21,31 +21,41 @@ const EditUserList = () => {
   const params = useParams();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [number, setNumber] = useState("");
-  const [team, setTeam] = useState("");
-  const [position, setPosition] = useState("");
-  const [gender, setGender] = useState("");
-  const [language, setLanguage] = useState("");
-  const [status, setStatus] = useState("");
-  const [role, setRole] = useState("");
+  const [country,setCountry] = useState("");
 
+  const [state,setState] = useState("");
+  const [city,setCity] = useState("");
+  const [bName,setBName] = useState("");
+  const [bankName,setBankName] = useState("");
+  const [accNumber,setAccNumber] = useState("");
+  const [code,setCode] = useState("");
+
+  const [number, setNumber] = useState("");
   const [address,setAddress] = useState("");
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    getUserDetail();
+    getSupplierDetail();
   }, []);
 
-  const getUserDetail = () => {
+  const getSupplierDetail = () => {
     setLoading(true);
-    DataService.getUserDetailById(params.id)
+    DataService.getSupplierDetailById(params.id)
       .then((data) => {
         setData(data.data.data);
-        setFile(data?.data?.data?.images?.url);
-        setName(data.data.data?.name);
-        setEmail(data.data.data?.email);
-        setNumber(data.data.data?.phoneNo);
-        setAddress(data.data.data?.address);
+        setName(data.data?.name);
+        setEmail(data?.data?.email);
+        setNumber(data?.data?.phoneNo);
+        setAddress(data?.data?.address);
+        setCountry(data?.data?.country);
+        setState(data?.data?.state);
+        setCity(data?.data?.city);
+        setBName(data?.data?.beneficiaryname);
+        setBankName(data?.data?.bankname);
+        setAccNumber(data?.data?.accountno);
+        setCode(data?.data?.ifsccode);
+
+
         //setTeam(data.data.data?.team);
         //setPosition(data.data.data?.position);
         //setGender(data.data.data?.gender);
@@ -160,8 +170,6 @@ const EditUserList = () => {
                 onChange={(e) => setNumber(e.target.value)}
               />
             </div>
-          </div>
-          <div className="right-side-userDetail">
             <div className="label-filed">
               <label>Address <span className="red-required">* </span></label>
             </div>
@@ -173,8 +181,88 @@ const EditUserList = () => {
               />
             </div>
 
+            <div className="label-filed">
+              <label>Country <span className="red-required">* </span></label>
+            </div>
+            <div className="label-filed">
+              <input
+                type="text"
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+              />
+            </div>
+
+            <div className="label-filed">
+              <label>State <span className="red-required">* </span></label>
+            </div>
+            <div className="label-filed">
+              <input
+                type="text"
+                value={state}
+                onChange={(e) => setState(e.target.value)}
+              />
+            </div>
+
+            <div className="label-filed">
+              <label>City <span className="red-required">* </span></label>
+            </div>
+            <div className="label-filed">
+              <input
+                type="text"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+              />
+            </div>
+
+            <div className="label-filed">
+              <label>Beneficiary Name <span className="red-required">* </span></label>
+            </div>
+            <div className="label-filed">
+              <input
+                type="text"
+                value={bName}
+                onChange={(e) => setBName(e.target.value)}
+              />
+            </div>
+
+            <div className="label-filed">
+              <label>Bank Name <span className="red-required">* </span></label>
+            </div>
+            <div className="label-filed">
+              <input
+                type="text"
+                value={bankName}
+                onChange={(e) => setBankName(e.target.value)}
+              />
+            </div>
+
+            <div className="label-filed">
+              <label>Account Number <span className="red-required">* </span></label>
+            </div>
+            <div className="label-filed">
+              <input
+                type="text"
+                value={accNumber}
+                onChange={(e) => setAccNumber(e.target.value)}
+              />
+            </div>
+
+            <div className="label-filed">
+              <label>Code <span className="red-required">* </span></label>
+            </div>
+            <div className="label-filed">
+              <input
+                type="text"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+              />
+            </div>
 
           </div>
+
+
+
+          
         </div>
         <div className="bottom-btn-sec">
           <button
@@ -195,4 +283,4 @@ const EditUserList = () => {
   );
 };
 
-export default EditUserList;
+export default SupplierEdit;

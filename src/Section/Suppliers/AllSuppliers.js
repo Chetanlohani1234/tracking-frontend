@@ -241,7 +241,7 @@ const AllSuppliers = () => {
                       <div className="action-icon">
                         <Link
                           className="action-link"
-                          to={`/edit-user/${user._id}`}
+                          to={`/edit-supplier/${user._id}`}
                         >
                           <i
                             id="edit_icon"

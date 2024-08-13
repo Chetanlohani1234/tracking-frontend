@@ -87,6 +87,36 @@ const Sidebar = () => {
               </li>
 
               <li className="side-bar-item text-color-white">
+                <Link className="side-bar-link-color" to="/all-po">
+                  <div
+                    className={
+                      location.pathname === "/all-po"
+                        ? "active-side-bar"
+                        : "side-bar-item-content"
+                    }
+                  >
+                    <i class="fas fa-cart-arrow-down"></i>
+                    <p> Purchase Order</p>
+                  </div>
+                </Link>
+              </li>
+
+              <li className="side-bar-item text-color-white">
+                <Link className="side-bar-link-color" to="/all-inward">
+                  <div
+                    className={
+                      location.pathname === "/all-inward"
+                        ? "active-side-bar"
+                        : "side-bar-item-content"
+                    }
+                  >
+                    <i class="fas fa-cart-arrow-down"></i>
+                    <p> Inward</p>
+                  </div>
+                </Link>
+              </li>
+
+              <li className="side-bar-item text-color-white">
                 <Link className="side-bar-link-color" to="/all-items">
                   <div
                     className={
