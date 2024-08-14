@@ -129,6 +129,26 @@ const deleteCategory = (id) => {
   return axios.delete(API_URL + `api/category/delete/${id}`);
 };
 
+const addUom = (data) => {
+  return axios.post(API_URL + "api/Uom/add",data );
+};
+
+const getUom = (type) => {
+  return axios.get(API_URL + `api/uom/getAll`)
+}
+
+const getUomById = (id) => {
+  return axios.get(API_URL + `api/uom/getById/${id}`);
+};
+
+const updateUom = (id, data) => {
+  return axios.put(API_URL + `api/uom/updateById/${id}`, data);
+};
+
+const deleteUom = (id) => {
+  return axios.delete(API_URL + `api/uom/delete/${id}`);
+};
+
 
 const addProject = (data) => {
   return axios.post(API_URL + "api/project/addProject", data);
@@ -417,6 +437,11 @@ const DataService = {
   getCategoryById,
   updateCategory,
   deleteCategory,
+  addUom,
+  getUom,
+  getUomById,
+  updateUom,
+  deleteUom,
 
 
 

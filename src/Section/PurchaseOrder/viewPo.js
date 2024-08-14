@@ -33,9 +33,9 @@ const ViewPo = () => {
     }
 
     return (
-        <div>
-            <h1>Purchase Orders</h1>
-            <table>
+        <div className="view-po-container">
+            <h1 className="view-po-title">Purchase Order Details</h1>
+            <table className="view-po-table">
                 <thead>
                     <tr>
                         <th>Supplier Information</th>
@@ -44,31 +44,53 @@ const ViewPo = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr key={purchaseOrder._id}>
-                        <td>
-                            {purchaseOrder.supplier.name} <br />
-                            {purchaseOrder.supplier.email}<br />
-                            {purchaseOrder.supplier.phoneNo}<br />
-                            {purchaseOrder.supplier.address}<br />
-                            {purchaseOrder.supplier.country}<br />
-                            {purchaseOrder.supplier.state}<br />
-                            {purchaseOrder.supplier.city}<br />
-                            {purchaseOrder.supplier.beneficiaryname}<br />
-                            {purchaseOrder.supplier.bankname}<br />
-                            {purchaseOrder.supplier.accountno}<br />
-                            {purchaseOrder.supplier.ifsccode}
+                    <tr>
+                        <td className="view-po-supplier-info">
+                            <strong>Name:</strong> {purchaseOrder.supplier.name} <br />
+                            <strong>Email:</strong> {purchaseOrder.supplier.email}<br />
+                            <strong>Phone:</strong> {purchaseOrder.supplier.phoneNo}<br />
+                            <strong>Address:</strong> {purchaseOrder.supplier.address}, {purchaseOrder.supplier.city}, {purchaseOrder.supplier.state}, {purchaseOrder.supplier.country}<br />
+                            <strong>Beneficiary Name:</strong> {purchaseOrder.supplier.beneficiaryname}<br />
+                            <strong>Bank Name:</strong> {purchaseOrder.supplier.bankname}<br />
+                            <strong>Account No:</strong> {purchaseOrder.supplier.accountno}<br />
+                            <strong>IFSC Code:</strong> {purchaseOrder.supplier.ifsccode}
                         </td>
-                        <td>{new Date(purchaseOrder.date).toLocaleDateString()}</td>
-                        <td>
-                            <ul>
-                                {purchaseOrder.Items.map(item => (
-                                    <li key={item._id}>
-                                        {item.name} - {item.price} <br />
-                                        Category: {item.category.category} <br />
-                                        Subcategory: {item.subcategory.category} <br />
-                                    </li>
-                                ))}
-                            </ul>
+                        <td className="view-po-date">
+                            {new Date(purchaseOrder.date).toLocaleDateString()}
+                        </td>
+                        <td className="view-po-items-detail">
+                            <table className="view-po-items-table">
+                                <thead>
+                                    <tr>
+                                        <th>Item Name</th>
+                                        <th>Category</th>
+                                        <th>Subcategory</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Tax %</th>
+                                        <th>Tax Amount</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {purchaseOrder.items?.map((item, index) => (
+                                        <tr key={index}>
+                                            <td>{item.name}</td>
+                                            <td>{item.itemId?.category?.category}</td>
+                                            <td>{item?.itemId?.subcategory?.category}</td>
+                                            <td>{item?.itemId?.uom?.uom}</td>
+                                            <td>{item?.unitPrice}</td>
+                                            <td>{item?.quantity}</td>
+                                            <td>{item?.price}</td>
+                                            <td>{item?.taxPercent}</td>
+                                            <td>{item?.taxAmount}</td>
+                                            <td>{item?.total}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </td>
                     </tr>
                 </tbody>

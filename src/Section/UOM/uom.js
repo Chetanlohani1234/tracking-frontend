@@ -3,8 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import DataService from "../../services/data.service";
 import { ToastContainer, toast } from "react-toastify";
 import img from "../../Images/placeholder-img.png";
-
-const AllInwards = () => {
+const UOM = () => {
   const imgRef = useRef();
   const [allusers, setAllUser] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -12,17 +11,8 @@ const AllInwards = () => {
   const [addUserPopUp, setAddUserPopUp] = useState(false);
   const [btnloading, setbtnloading] = useState(false);
   const [name, setName] = useState("");
-  const [mobileNo, setMobileNo] = useState("");
+  const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [country, setCountry] = useState("");
-  const [state, setState] = useState("");
-  const [city, setCity] = useState("");
-  const [bname, setBName] = useState("");
-  const [bankName, setBankName] = useState("");
-  const [account, setAccount] = useState("");
-  const [code, setCode] = useState("");
-
   const [role, setRole] = useState("");
   const [searchText, setSearchText] = useState("");
   const navigate = useNavigate();
@@ -38,13 +28,60 @@ const AllInwards = () => {
 
   const getAllUser = () => {
     setLoading(true);
-    DataService.getAllInward()
-      .then((data) => {
-        setAllUser(data.data.data);
-        setFilteredUser(data.data);
+    DataService.getUom() // Pass the appropriate type value here
+      .then((response) => {
+        const data = response.data; // Extract data from response
+        setAllUser(data?.data || []);
+        setName(data?.data?.category || []);
+        setFilteredUser(data?.data || []);
         setLoading(false);
       })
       .catch((error) => {
+        const resMessage =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setLoading(false);
+        //setError(resMessage);
+        toast.error(resMessage); // Ensure toast is correctly configured to show error messages
+      });
+  };
+
+
+
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setbtnloading(true);
+
+    
+    if (!name) {
+      toast.error("Category is required");
+      setLoading(false);
+      setbtnloading(false);
+      return;
+    }
+
+
+
+    const data = {
+      uom: name
+    };
+
+    DataService.addUom(data, userId).then(
+      () => {
+        toast.success("UOM Added Successfully!!!");
+        setTimeout(() => {
+          getAllUser();
+          setAddUserPopUp(false);
+          setbtnloading(false);
+        }, 2000);
+        setName("");
+      },
+      (error) => {
         const resMessage =
           (error.response &&
             error.response.data &&
@@ -52,15 +89,15 @@ const AllInwards = () => {
           error.message ||
           error.toString();
         setLoading(false);
-        toast.error(resMessage, {});
-      });
+        setbtnloading(false);
+        toast.error(resMessage);
+      }
+    );
   };
-
-
-  const deleteUser = (userId, username) => {
-    DataService.deleteInward(userId).then(
+  const deleteCategory = (userId, username) => {
+    DataService.deleteUom(userId).then(
       () => {
-        toast.success(`Inward deleted successfully`);
+        toast.success(`UOM deleted successfully`);
         getAllUser();
         setLoading(false);
       },
@@ -84,7 +121,7 @@ const AllInwards = () => {
 
   const executeDelete = () => {
     if (deleteUserId) {
-      deleteUser(deleteUserId.userId, deleteUserId.username);
+      deleteCategory(deleteUserId.userId, deleteUserId.username);
       setDeleteUserId(null);
     }
   };
@@ -105,16 +142,12 @@ const AllInwards = () => {
     );
     setFilteredUser(filtered);
   };
-
-  const handleClick = () => {
-    navigate("/add-inward");
-  }
   return (
     <>
       <ToastContainer />
       <div className="main-sec-dashboard">
         <div className="top-bar-content top-bar-flex">
-          <h2>All Inward</h2>
+          <h2>All Unit Of Measurement</h2>
 
           <div className="right-side-btn-user">
             <div className="serach_box">
@@ -130,9 +163,9 @@ const AllInwards = () => {
                 </button>
               )} */}
             </div>
-            <div className="add_user_div" onClick={handleClick}>
+            <div className="add_user_div" onClick={() => setAddUserPopUp(true)}>
               <button type="button" className="main-btn">
-                Add New Inward
+                Add New UOM
               </button>
             </div>
           </div>
@@ -143,10 +176,7 @@ const AllInwards = () => {
             <thead>
               <tr className="senior_div">
                 <th>S.No.</th>
-                 <th>Invoice Number</th>
-                <th>Supplier Name</th>
-                <th>Delivery Date</th>
-                <th>Vehicle Number</th>
+                <th>UOM</th>
                 <th className="action-end">Action</th>
               </tr>
             </thead>
@@ -161,15 +191,18 @@ const AllInwards = () => {
                 filteredUser.map((user, index) => (
                   <tr key={user._id}>
                     <td>{index + 1}</td>
-                    <td>{user?.invoiceNumber}</td>
-                    <td>{user?.supplier.name}</td>
-                    <td>{user?.date}</td>
-                    <td>{user?.vehicleNumber}</td>
+                    <td>{user?.uom}</td>
                     <td className="actionButtons action-end">
                       <div className="action-icon">
+                        {/* <Link
+                          className="action-link"
+                          to={`/user-detail/${user._id}`}
+                        >
+                          <i class="fas fa-eye"></i>
+                        </Link> */}
                         <Link
                           className="action-link"
-                          to={`/update-inward/${user._id}`}
+                          to={`/edit-uom/${user._id}`}
                         >
                           <i
                             id="edit_icon"
@@ -193,6 +226,54 @@ const AllInwards = () => {
           </table>
         </div>
       </div>
+      {addUserPopUp && (
+        <div className="main-sec-popup">
+          <div className="inner-sec-popup">
+            <div className="top-hedind-sec-popup">
+              <h2>Add Category</h2>
+            </div>
+            <div className="label-input-sec-popup">
+              <div className="label-input-flex-popup">
+                <label>
+                  UOM <span className="red-required">* </span>
+                </label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Enter Unit Of Measurement"
+                />
+              </div>
+
+              <div className="bottom-btn-sec-popup">
+                <div className="add-user-popup-btn">
+                  <button
+                    type="button"
+                    className="main-btn margin-btn"
+                    onClick={() => setAddUserPopUp(false)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+                <div className="add-user-popup-btn">
+                  <button
+                    type="button"
+                    className="main-btn margin-btn"
+                    onClick={handleSubmit}
+                    disabled={btnloading}
+                  >
+                    {btnloading ? (
+                      <span className="spinner-border spinner-border-sm"></span>
+                    ) : (
+                      "Add UOM"
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {deleteUserId && (
         <div className="main_email_outer">
           <div className="delete_div_a">
@@ -231,4 +312,4 @@ const AllInwards = () => {
   );
 };
 
-export default AllInwards;
+export default UOM;

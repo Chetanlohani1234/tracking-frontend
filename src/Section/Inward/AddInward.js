@@ -12,6 +12,7 @@ const AddInward = () => {
   const [deliveryDate, setDeliveryDate] = useState('');
   const [vehicleNumber, setVehicleNumber] = useState('');
   const [selectedSupplier, setSelectedSupplier] = useState("");
+  const [inNumber,setInNumber] = useState("");
  
   useEffect(() => {
     // Fetch suppliers when the component mounts
@@ -30,6 +31,11 @@ const AddInward = () => {
  
   
     // Validate required fields
+    if (!inNumber) {
+      toast.error("Invoice Number is required");
+      return;
+    }
+
     if (!selectedSupplier) {
       toast.error("Supplier is required");
       return;
@@ -47,6 +53,7 @@ const AddInward = () => {
   
     // Create FormData object
      const data = {
+      invoiceNumber:inNumber,
       supplier:selectedSupplier,
       date:deliveryDate,
       vehicleNumber:vehicleNumber,
@@ -82,8 +89,21 @@ const AddInward = () => {
   <>
     <ToastContainer />
     <div className="form-container">
-      <h2>Purchase Order Form</h2>
+      <h2>Purchase Order </h2>
       <form onSubmit={handleSubmit}>
+
+      <div className="form-group">
+          <label htmlFor="deliveryDate">
+            Invoice Number <span className="required">*</span>
+          </label>
+          <input
+            type="text"
+            value={inNumber}
+            onChange={(e) => setInNumber(e.target.value)}
+            required
+          />
+        </div>
+
         <div className="form-group">
         <label>
           Supplier <span className="red-required">* </span>

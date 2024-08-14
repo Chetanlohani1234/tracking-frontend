@@ -43,6 +43,8 @@ import AllInward from "./Pages/AllInward";
 import AllPurchaseOrder from "./Pages/AllPurchaseOrder";
 import PoView from "./Pages/PoView";
 import PoEdit from "./Pages/PoEdit";
+import AddUOM from "./Pages/AddUOM";
+import EditUOM from "./Pages/EditUOM";
 //import InwardUpdate from "./Pages/InwardUpdate";
 
 
@@ -84,7 +86,9 @@ export default function App() {
          {/* <Route exact path="/update-inward" element={<InwardUpdate/>}/> */}
       
          
-
+         <Route exact path="/uom" element={<AddUOM/>}/>
+         L<Route exact path="/edit-uom/:id" element={<EditUOM/>}/>
+         
          <Route exact path="/user-detail/:id" element={<UserDetail />} />
          <Route exact path="/edit-user/:id" element={<UserEdit />} />
          <Route exact path="/role-management" element={<RoleManagement />} />

@@ -1,129 +1,35 @@
-/* Combined PO and View PO Styles */
+/* Scope all styles to the .po-container class to prevent conflicts */
 
-/* Basic Table Styling (from ViewPo.css) */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
-  font-size: 16px;
-  text-align: left;
-  border: 1px solid #ddd;
-}
-
-th, td {
-  padding: 15px;
-  border: 1px solid #ddd;
-  font-weight: bold;
-}
-
-thead {
-  background-color: #009879;
-  color: #ffffff;
-}
-
-th {
-  text-align: center;
-  font-size: 18px;
-}
-
-td {
-  background-color: #ffffff;
-  font-weight: normal; /* Override bold for td */
-  font-size: 16px;
-}
-
-/* Alternate Row Color */
-tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-/* Hover Effect */
-tr:hover {
-  background-color: #f1f1f1;
-}
-
-/* Responsive Table */
-@media screen and (max-width: 768px) {
-  table {
-      width: 100%;
-      border: 0;
-  }
-
-  thead {
-      display: none;
-  }
-
-  tr {
-      display: block;
-      margin-bottom: 10px;
-  }
-
-  td {
-      display: block;
-      text-align: right;
-      position: relative;
-      padding-left: 50%;
-      border: none;
-  }
-
-  td::before {
-      content: attr(data-label);
-      position: absolute;
-      left: 0;
-      width: 45%;
-      padding-right: 10px;
-      white-space: nowrap;
-      font-weight: bold;
-  }
-}
-
-/* Style for Lists Inside Table Cells */
-td ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-td li {
-  padding: 10px 0;
-  border-bottom: 1px solid #ddd;
-}
-
-td li:last-child {
-  border-bottom: none;
-}
-
-/* Highlight Important Text */
-td span.bold {
-  font-weight: bold;
-  color: #333;
-}
-
-/* General Form Styles (from Po.css) */
-div {
+/* General Styles */
+.po-container {
   font-family: Arial, sans-serif;
 }
 
-h2 {
+.po-title {
   text-align: center;
   color: #333;
   margin-bottom: 20px;
 }
 
-/* Dropdown and Button Styles */
-.label-input-flex-popup {
+/* Label and Input Styles */
+.po-label-input-flex {
   display: flex;
   flex-direction: column;
   margin: 20px;
 }
 
-label {
+.po-label-input-flex label {
   font-weight: bold;
   margin-bottom: 8px;
   margin-right: 18%;
 }
 
-select, input[type="number"], input[type="text"], input[type="date"] {
+.po-required {
+  color: red;
+}
+
+.po-label-input-flex select,
+.po-label-input-flex input[type="date"] {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -131,13 +37,13 @@ select, input[type="number"], input[type="text"], input[type="date"] {
   width: 100%;
   max-width: 300px;
   box-sizing: border-box;
-}
-
-select {
   margin-bottom: 10px;
 }
 
-button {
+/* Button Styles */
+.po-add-item-btn,
+.po-submit-btn,
+.po-add-new-btn {
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
@@ -148,79 +54,139 @@ button {
   margin-top: 10px;
 }
 
-button:hover {
+.po-add-item-btn:hover,
+.po-submit-btn:hover,
+.po-add-new-btn:hover {
   background-color: #0056b3;
 }
 
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-/* Table Styles (from Po.css) */
-thead {
-  background-color: #f2f2f2;
-}
-
-th, td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #000000;
-}
-
-th {
-  background-color: #007BFF;
-  color: white;
-}
-
-td input {
-  border: 1px solid #000000;
-  border-radius: 4px;
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
-}
-
-/* Style for Buttons Inside Table Cells */
-table td button {
-  margin-right: 0.5rem; /* Add space between buttons */
-}
-
-/* Optional: Style the Add New Item Button */
-table button.add-new {
-  background-color: #28a745; /* Green background for the Add button */
-  border: none;
-  color: white;
-  padding: 10px;
-  text-align: left;
-  cursor: pointer;
-}
-
-/* Optional: Style the Remove Button */
-table td button.remove {
-  background-color: #dc3545; /* Red background for the Remove button */
-  border: none;
-  color: white;
-}
-
-table td button:hover {
-  opacity: 0.9; /* Slightly fade buttons on hover */
-}
-
-/* Form Footer Styles */
-.form-footer {
-  display: flex;
-  justify-content: center;
+/* Table Styles */
+.po-table-container {
   margin-top: 20px;
 }
 
-.form-footer button {
-  background-color: #28a745;
-  padding: 10px 20px;
-  font-size: 18px;
-  border-radius: 4px;
+.po-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 16px;
+  text-align: left;
+  border: 1px solid #ddd;
 }
 
-.form-footer button:hover {
-  background-color: #218838;
+.po-table th,
+.po-table td {
+  padding: 15px;
+  border: 1px solid #ddd;
+  font-weight: bold;
 }
+
+.po-table thead {
+  background-color: #00C3FF;
+  color: #ffffff;
+}
+
+.po-table th {
+  text-align: center;
+  font-size: 18px;
+}
+
+.po-table td {
+  background-color: #ffffff;
+  font-weight: normal;
+  font-size: 16px;
+}
+
+/* Alternate Row Color */
+.po-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Hover Effect */
+.po-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Responsive Table */
+@media screen and (max-width: 768px) {
+  .po-table {
+      width: 100%;
+      display: block;
+      overflow-x: auto;
+  }
+}
+
+.po-remove-btn {
+  background-color: #FF6347;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.po-remove-btn:hover {
+  background-color: #c55c47;
+}
+
+.po-form-footer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/*View Po Css */
+
+/* Scoped styles for ViewPo component */
+
+/* Container Styles */
+.view-po-container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.view-po-title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Table Styles */
+.view-po-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.view-po-table th, .view-po-table td {
+  padding: 12px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.view-po-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+/* Supplier Info Styles */
+.view-po-supplier-info {
+  white-space: pre-line; /* To display multiline text properly */
+}
+
+/* Date Styles */
+.view-po-date {
+  text-align: center;
+  white-space: nowrap; /* Prevent wrapping */
+}
+
+/* Items Detail Styles */
+.view-po-items-detail ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.view-po-item {
+  margin-bottom: 10px;
+}
+

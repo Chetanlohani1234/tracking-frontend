@@ -346,6 +346,21 @@ const Sidebar = () => {
               </li>
 
               <li className="side-bar-item text-color-white">
+                <Link className="side-bar-link-color" to="/uom">
+                  <div
+                    className={
+                      location.pathname === "/uom"
+                        ? "active-side-bar"
+                        : "side-bar-item-content"
+                    }
+                  >
+                    <i class="fas fa-tags"></i>
+                    <p>Unit Of Measurement</p>
+                  </div>
+                </Link>
+              </li>
+
+              <li className="side-bar-item text-color-white">
                 <Link className="side-bar-link-color" to="/view-Profile">
                   <div
                     className={

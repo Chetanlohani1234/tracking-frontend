@@ -31,6 +31,9 @@ const Items = () => {
   const [subcategories, setSubcategories] = useState([]);
   const [selectedSubcategory, setSelectedSubcategory] = useState("");
 
+  const[selectedUOM,setSelectedUOM] = useState("");
+  const[uom,setUom] = useState(""); 
+
   
   useEffect(() => {
     // Fetch categories when the component mounts
@@ -54,6 +57,31 @@ const Items = () => {
         //setError(resMessage);
       });
   }, []);
+
+    useEffect(() => {
+    // Fetch categories when the component mounts
+    DataService.getUom() // Pass the appropriate type value here
+      .then((response) => {
+        //const data = response.data.parentId._id;
+        //setCategory(data?.data || []);
+        //const UOM = response.data;
+        //const uom = UOM.map(item => item._id); // Extract parentId from each item
+        const uom = response.data.data;
+        setUom(uom || []);
+        setLoading(false);
+      })
+      .catch((error) => {
+        const resMessage =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setLoading(false);
+        //setError(resMessage);
+      });
+  }, []);
+
+  console.log("sdsdsd",uom);
 
   const userId = JSON.parse(localStorage.getItem("userId"));
 
@@ -123,6 +151,7 @@ const Items = () => {
     formData.append('name', name);
     formData.append('price', price);
     formData.append('description', description);
+    formData.append('uom',selectedUOM);
     formData.append('category', selectedCategory);
     formData.append('subcategory', selectedSubcategory);
     formData.append('image', image);
@@ -217,6 +246,13 @@ const Items = () => {
         }
   };
 
+  const handleChangeUom = (e) => {
+    const uom = e.target.value;
+    setSelectedUOM(uom);
+
+  }
+  console.log("selected uom",selectedUOM);
+
   return (
     <>
       <ToastContainer />
@@ -252,6 +288,7 @@ const Items = () => {
               <tr className="senior_div">
                 <th>S.No.</th>
                 <th>Item Name</th>
+                <th>UOM</th>
                 <th>Price</th>
                 <th>Description</th>
                 <th>Category</th>
@@ -289,6 +326,7 @@ const Items = () => {
                         {user.name}
                       </div>
                     </td>
+                    <td>{user?.uom?.uom}</td>
                     <td>{user?.price}</td>
                     <td>{user?.description}</td>
                     <td>{user?.category?.category}</td>
@@ -366,6 +404,26 @@ const Items = () => {
                     placeholder="Enter Item Description"
                 />
                 </div>
+
+                <div className="label-input-flex-popup">
+                <label>
+                    UOM <span className="red-required">* </span>
+                </label>
+                <select 
+                    
+                    value={selectedUOM} 
+                    onChange={handleChangeUom}
+                    //onChange={(e) => setSelectedCategory(e.target.value)}
+                >
+                        <option value="">Select UOM</option>
+                      {uom && uom.map((categories) => (
+                        <option key={categories._id} value={categories._id}>
+                          {categories.uom}
+                        </option>
+                      ))}
+                </select>
+                </div>
+
                 <div className="label-input-flex-popup">
                 <label>
                     Item Category <span className="red-required">* </span>

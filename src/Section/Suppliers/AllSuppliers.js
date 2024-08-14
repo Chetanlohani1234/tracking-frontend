@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DataService from "../../services/data.service";
 import { ToastContainer, toast } from "react-toastify";
+import '../../../src/App.css';
 import img from "../../Images/placeholder-img.png";
 
 const AllSuppliers = () => {

@@ -151,6 +151,7 @@ const AllPo = () => {
                 <th>Price</th>
                 <th>Category</th>
                 <th>SubCategory</th>
+                <th>Status</th>
                 <th className="action-end">Action</th>
               </tr>
             </thead>
@@ -167,12 +168,16 @@ const AllPo = () => {
                     <td>{index + 1}</td>
                     <td>{user?.supplier.name}</td>
                     <td>{user?.date}</td>
-                    <td>{user?.Items[0].name}</td>
-                    <td>{user?.Items[0].price}</td>
-                    <td>{user?.Items[0].category.category}</td>
-                    <td>{user?.Items[0].subcategory.category}</td>
+                    <td>{user?.items[0]?.name}</td>
+                    <td>{user?.items[0]?.price}</td>
+                    <td>{user?.items[0]?.itemId?.category?.category}</td>
+                    <td>{user?.items[0]?.itemId?.subcategory?.category}</td>
+                    <td>Pending</td>
                     <td className="actionButtons action-end">
                       <div className="action-icon">
+                      <Link to={`/edit-po/${user._id}`}> 
+                        <button style={{width:"100px",height:"40px",background:"#FEDC56",color:"#000000"}}>Receive</button>
+                      </Link>  
                         <Link
                           className="action-link"
                           to={`/view-po/${user._id}`}
