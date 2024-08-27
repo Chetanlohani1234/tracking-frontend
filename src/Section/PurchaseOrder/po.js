@@ -82,9 +82,9 @@ const PO = () => {
     const taxAmount = (price * taxPercent) / 100;
     const total = price + taxAmount;
 
-    updatedOrderItems[index].price = price.toFixed(2);
-    updatedOrderItems[index].taxAmount = taxAmount.toFixed(2);
-    updatedOrderItems[index].total = total.toFixed(2);
+    updatedOrderItems[index].price = price;
+    updatedOrderItems[index].taxAmount = taxAmount;
+    updatedOrderItems[index].total = total;
 
     setOrderItems(updatedOrderItems);
   };
@@ -185,6 +185,8 @@ const PO = () => {
                 <tr>
                   <th>Item</th>
                   <th>UOM</th>
+                  <th>Pending</th>
+                  <th>Receive</th>
                   <th>Unit Price</th>
                   <th>Quantity</th>
                   <th>Price</th>

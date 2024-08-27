@@ -8,7 +8,7 @@ const EditPO = () => {
   const navigate = useNavigate();
   const { id } = useParams(); // Extract PO ID from URL if editing an existing PO
   const [items, setItems] = useState([]);
-  const [orderItems, setOrderItems] = useState([{ itemId: '', name: '', uom: '', unitPrice: '', quantity: '', price: '', taxPercent: '', taxAmount: '', total: '' }]);
+  const [orderItems, setOrderItems] = useState([{ itemId: '', name: '', uom: '', unitPrice: '', quantity: '', price: '', taxPercent: '', taxAmount: '', total: '',pending:'',receive:'' }]);
   const [showTable, setShowTable] = useState(true);
   const [supplier, setSupplier] = useState([]);
   const [selectedSupplier, setSelectedSupplier] = useState("");
@@ -47,7 +47,9 @@ const EditPO = () => {
             price: item.price,
             taxPercent: item.taxPercent,
             taxAmount: item.taxAmount,
-            total: item.total
+            total: item.total,
+            pending:item.pending,
+            receive:item.receive
           })));
         })
         .catch((error) => {
@@ -76,7 +78,9 @@ const EditPO = () => {
         price: '',
         taxPercent: '',
         taxAmount: '',
-        total: ''
+        total: '',
+        pending:'',
+        receive:''
       };
     }
     setOrderItems(updatedOrderItems);
@@ -108,9 +112,9 @@ const EditPO = () => {
     const taxAmount = (price * taxPercent) / 100;
     const total = price + taxAmount;
 
-    updatedOrderItems[index].price = price.toFixed(2);
-    updatedOrderItems[index].taxAmount = taxAmount.toFixed(2);
-    updatedOrderItems[index].total = total.toFixed(2);
+    updatedOrderItems[index].price = price;
+    updatedOrderItems[index].taxAmount = taxAmount;
+    updatedOrderItems[index].total = total;
 
     setOrderItems(updatedOrderItems);
   };
@@ -145,7 +149,7 @@ const EditPO = () => {
     try {
       if (id) {
         // Update existing PO
-        await DataService.updatePo(id, data);
+        await DataService.updatePos(id, data);
         toast.success("PO Updated Successfully!!!");
       } else {
         // Add new PO

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import DataService from "../../services/data.service";
 import { useParams } from "react-router-dom";
-import './po.css';
+import '../PurchaseOrder/po.css';
 
-const ViewPo = () => {
+const VDGRN = () => {
     const [purchaseOrder, setPurchaseOrder] = useState(null); // Start with null
     const params = useParams();
 
@@ -13,7 +13,7 @@ const ViewPo = () => {
     }, []);
 
     const getSupplierDetail = () => {
-        DataService.getPoById(params.id)
+        DataService.directGetGrn(params.id)
             .then((response) => {
                 setPurchaseOrder(response.data);
             })
@@ -34,7 +34,7 @@ const ViewPo = () => {
 
     return (
         <div className="view-po-container">
-            <h1 className="view-po-title">Purchase Order Details</h1>
+            <h1 className="view-po-title">Grn Order Details</h1>
             <table className="view-po-table">
                 <thead>
                     <tr>
@@ -46,27 +46,28 @@ const ViewPo = () => {
                 <tbody>
                     <tr>
                         <td className="view-po-supplier-info">
-                            <strong>Name:</strong> {purchaseOrder.supplier.name} <br />
-                            <strong>Email:</strong> {purchaseOrder.supplier.email}<br />
-                            <strong>Phone:</strong> {purchaseOrder.supplier.phoneNo}<br />
-                            <strong>Address:</strong> {purchaseOrder.supplier.address}, {purchaseOrder.supplier.city}, {purchaseOrder.supplier.state}, {purchaseOrder.supplier.country}<br />
-                            <strong>Beneficiary Name:</strong> {purchaseOrder.supplier.beneficiaryname}<br />
-                            <strong>Bank Name:</strong> {purchaseOrder.supplier.bankname}<br />
-                            <strong>Account No:</strong> {purchaseOrder.supplier.accountno}<br />
-                            <strong>IFSC Code:</strong> {purchaseOrder.supplier.ifsccode}
+                            <strong>Invoice Number:</strong> {purchaseOrder.invoice?.invoiceNumber} <br />
+                            <strong>Name:</strong> {purchaseOrder.invoice?.supplier?.name} <br />
+                            <strong>Email:</strong> {purchaseOrder.invoice?.supplier.email}<br />
+                            <strong>Phone:</strong> {purchaseOrder.invoice?.supplier.phoneNo}<br />
+                            <strong>Address:</strong> {purchaseOrder.invoice?.supplier.address}, {purchaseOrder.invoice?.supplier.city}, {purchaseOrder.invoice?.supplier.state}, {purchaseOrder.invoice?.supplier.country}<br />
+                            <strong>Beneficiary Name:</strong> {purchaseOrder.invoice?.supplier.beneficiaryname}<br />
+                            <strong>Bank Name:</strong> {purchaseOrder.invoice?.supplier.bankname}<br />
+                            <strong>Account No:</strong> {purchaseOrder.invoice?.supplier.accountno}<br />
+                            <strong>IFSC Code:</strong> {purchaseOrder.invoice?.supplier.ifsccode}
                         </td>
                         <td className="view-po-date">
-                            {new Date(purchaseOrder.date).toLocaleDateString()}
+                            {new Date(purchaseOrder?.invoice?.date).toLocaleDateString()}
                         </td>
                         <td className="view-po-items-detail">
                             <table className="view-po-items-table">
                                 <thead>
                                     <tr>
                                         <th>Item Name</th>
-                                        <th>Pending</th>
-                                        <th>Receive</th>
                                         <th>Category</th>
                                         <th>Subcategory</th>
+                                        <th>Pending</th>
+                                        <th>Receive</th>
                                         <th>UOM</th>
                                         <th>Unit Price</th>
                                         <th>Quantity</th>
@@ -80,11 +81,11 @@ const ViewPo = () => {
                                     {purchaseOrder.items?.map((item, index) => (
                                         <tr key={index}>
                                             <td>{item.name}</td>
-                                            <td>{item.pending}</td>
-                                            <td>{item.receive}</td>
                                             <td>{item.itemId?.category?.category}</td>
                                             <td>{item?.itemId?.subcategory?.category}</td>
-                                            <td>{item?.itemId?.uom?.uom}</td>
+                                            <td>{item?.pending}</td>
+                                            <td>{item?.receive}</td>
+                                            <td>{item?.uom}</td>
                                             <td>{item?.unitPrice}</td>
                                             <td>{item?.quantity}</td>
                                             <td>{item?.price}</td>
@@ -103,4 +104,4 @@ const ViewPo = () => {
     );
 };
 
-export default ViewPo;
+export default VDGRN;

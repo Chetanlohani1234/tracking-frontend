@@ -315,6 +315,36 @@ const Sidebar = () => {
                 </Link>
               </li> */}
 
+            <li className="side-bar-item text-color-white">
+                <Link className="side-bar-link-color" to="/direct-grn">
+                  <div
+                    className={
+                      location.pathname === "/direct-grn"
+                        ? "active-side-bar"
+                        : "side-bar-item-content"
+                    }
+                  >
+                    <i class="fas fa-tags"></i>
+                    <p>Direct GRN</p>
+                  </div>
+                </Link>
+              </li>
+
+             <li className="side-bar-item text-color-white">
+                <Link className="side-bar-link-color" to="/all-po">
+                  <div
+                    className={
+                      location.pathname === "/all-po"
+                        ? "active-side-bar"
+                        : "side-bar-item-content"
+                    }
+                  >
+                    <i class="fas fa-tags"></i>
+                    <p>GRN Through Po</p>
+                  </div>
+                </Link>
+              </li>
+
               <li className="side-bar-item text-color-white">
                 <Link className="side-bar-link-color" to="/category">
                   <div

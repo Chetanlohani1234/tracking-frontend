@@ -106,6 +106,12 @@ const getPoById = (id) => {
 const updatePo = (id, data) => {
   return axios.put(API_URL + `api/po/updateById/${id}`, data);
 };
+
+const updatePos = (id, data) => {
+  return axios.put(API_URL + `api/po/updatePo/${id}`, data);
+};
+
+
 const deletePo = (id) => {
   return axios.delete(API_URL + `api/po/delete/${id}`);
 };
@@ -147,6 +153,26 @@ const updateUom = (id, data) => {
 
 const deleteUom = (id) => {
   return axios.delete(API_URL + `api/uom/delete/${id}`);
+};
+
+const addGrn = (id,data) => {
+  return axios.post(API_URL + "api/grn/add",data );
+};
+const directAddGrn = (data) => {
+  return axios.post(API_URL + "api/direct/grn/add",data );
+};
+const UpdateGrn = (id,data) => {
+  return axios.put(API_URL + `api/direct/grn/updateById/${id}`,data );
+};
+const directEditGrn = () => {
+  return axios.get(API_URL + `api/direct/grn/getAll`);
+};
+const directGetGrn = (id) => {
+  return axios.get(API_URL + `api/direct/grn/getById/${id}`);
+};
+
+const deleteGrn = (id) => {
+  return axios.delete(API_URL + `api/direct/grn/delete/${id}`);
 };
 
 
@@ -431,6 +457,7 @@ const DataService = {
   getAllPo,
   getPoById,
   updatePo,
+  updatePos,
   deletePo,
   addCategory,
   getCategory,
@@ -442,6 +469,12 @@ const DataService = {
   getUomById,
   updateUom,
   deleteUom,
+  addGrn,
+  directAddGrn,
+  UpdateGrn,
+  directEditGrn,
+  directGetGrn,
+  deleteGrn,
 
 
 

@@ -2,10 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DataService from "../../services/data.service";
 import { ToastContainer, toast } from "react-toastify";
-import './po.css';
+import '../PurchaseOrder/po.css';
 import img from "../../Images/placeholder-img.png";
 
-const AllPo = () => {
+const DGrn = () => {
   const imgRef = useRef();
   const [allusers, setAllUser] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -40,7 +40,7 @@ const AllPo = () => {
 
   const getAllUser = () => {
     setLoading(true);
-    DataService.getAllPo()
+    DataService.directEditGrn()
       .then((data) => {
         setAllUser(data.data.data);
         setFilteredUser(data.data);
@@ -60,9 +60,9 @@ const AllPo = () => {
 
 
   const deleteUser = (userId, username) => {
-    DataService.deletePo(userId).then(
+    DataService.deleteGrn(userId).then(
       () => {
-        toast.success(`PO deleted successfully`);
+        toast.success(`GRN deleted successfully`);
         getAllUser();
         setLoading(false);
       },
@@ -109,14 +109,14 @@ const AllPo = () => {
   };
 
   const handleClick = () => {
-    navigate("/add-po");
+    navigate("/add-grn");
   }
   return (
     <>
       <ToastContainer />
       <div className="main-sec-dashboard">
         <div className="top-bar-content top-bar-flex">
-          <h2>All Purchase Order</h2>
+          <h2>All Direct GRN</h2>
 
           <div className="right-side-btn-user">
             <div className="serach_box">
@@ -134,7 +134,7 @@ const AllPo = () => {
             </div>
             <div className="add_user_div" onClick={handleClick}>
               <button type="button" className="main-btn">
-                Add New PO
+                Add New GRN
               </button>
             </div>
           </div>
@@ -146,12 +146,11 @@ const AllPo = () => {
               <tr className="senior_div">
                 <th>S.No.</th>
                 <th>Supplier Name</th>
-                <th>Delivery Date</th>
+                <th>Invoice Number</th>
                 <th>Item Name</th>
                 <th>Price</th>
                 <th>Category</th>
                 <th>SubCategory</th>
-                <th>Status</th>
                 <th className="action-end">Action</th>
               </tr>
             </thead>
@@ -165,24 +164,84 @@ const AllPo = () => {
                 filteredUser.length > 0 &&
                 filteredUser.map((user, index) => {
 
-                  const isPending = user.items.some(item => item.quantity !== item.receive);
+                  //const isPending = user.items.some(item => item.quantity !== item.receive);
+                  const isPending = user.items.some(item => item.pending == 0);
                   console.log("statsyus",isPending);
                   return (
                   <tr key={user._id}>
                     <td>{index + 1}</td>
-                    <td>{user?.supplier.name}</td>
-                    <td>{user?.date}</td>
+                    <td>{user?.invoice?.supplier?.name}</td>
+                    <td>{user?.invoice?.invoiceNumber}</td>
+                    <td>{user?.items[0]?.name}</td>
+                    <td>{user?.items[0]?.price}</td>
+                    <td>{user?.items[0]?.itemId?.category?.category}</td>
+                    <td>{user?.items[0]?.itemId?.subcategory?.category}</td>
+                    {/* <td>
+                    {isPending ? 'Pending' : 'Completed'}
+                   </td> */}
+                    <td className="actionButtons action-end">
+                      <div className="action-icon">
+                      {/* {isPending && (
+                    <Link to={`/receivedirectgrn/${user._id}`}>
+                      <button
+                        style={{ width: "100px", height: "40px", background: "#FEDC56", color: "#000000" }}
+                      >
+                        Receive
+                      </button>
+                    </Link>
+                  )} */}
+
+                        <Link
+                          className="action-link"
+                          to={`/view-grn/${user._id}`}
+                        >
+                          <i class="fas fa-eye"></i>
+                        </Link> 
+                        {/* <Link
+                          className="action-link"
+                          to={`/receivedirectgrn/${user._id}`}
+                        >
+                          <i
+                            id="edit_icon"
+                            className="fa fa-edit edit-icon"
+                          ></i>
+                        </Link> */}
+                        <i
+                          onClick={() => confirmDelete(user._id, user?.name)}
+                          class="fas fa-trash delete-icon"
+                        ></i>
+                        {/* <i
+                          onClick={() => confirmDelete(user._id)}
+                          id="delete_icon"
+                          className="fa fa-trash"
+                        ></i> */}
+                      </div>
+                    </td>
+                  </tr>
+                );  
+              })}
+              {/* {filteredUser &&
+                filteredUser.length > 0 &&
+                filteredUser.map((user, index) => {
+
+                  const isPending = user.items.some(item => item.quantity !== item.receive);
+                  console.log("status",isPending);
+                  return (
+                  <tr key={user._id}>
+                    <td>{index + 1}</td>
+                    <td>{user?.invoice?.supplier?.name}</td>
+                    <td>{user?.invoice?.invoiceNumber}</td>
                     <td>{user?.items[0]?.name}</td>
                     <td>{user?.items[0]?.price}</td>
                     <td>{user?.items[0]?.itemId?.category?.category}</td>
                     <td>{user?.items[0]?.itemId?.subcategory?.category}</td>
                     <td>
-                    {isPending ? 'Pending' : 'Completed'}
+                    {isPending ? 'Completed' : 'Pending'}
                    </td>
                     <td className="actionButtons action-end">
                       <div className="action-icon">
                       {isPending && (
-                    <Link to={`/grn/${user._id}`}>
+                    <Link to={`/receivedirectgrn/${user._id}`}>
                       <button
                         style={{ width: "100px", height: "40px", background: "#FEDC56", color: "#000000" }}
                       >
@@ -193,7 +252,7 @@ const AllPo = () => {
 
                         <Link
                           className="action-link"
-                          to={`/view-po/${user._id}`}
+                          to={`/view-grn/${user._id}`}
                         >
                           <i class="fas fa-eye"></i>
                         </Link> 
@@ -214,12 +273,12 @@ const AllPo = () => {
                           onClick={() => confirmDelete(user._id)}
                           id="delete_icon"
                           className="fa fa-trash"
-                        ></i> */}
+                        ></i> 
                       </div>
                     </td>
                   </tr>
                 );  
-              })}
+              })} */}
             </tbody>
           </table>
         </div>
@@ -262,4 +321,4 @@ const AllPo = () => {
   );
 };
 
-export default AllPo;
+export default DGrn;

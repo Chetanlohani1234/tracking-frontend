@@ -45,6 +45,11 @@ import PoView from "./Pages/PoView";
 import PoEdit from "./Pages/PoEdit";
 import AddUOM from "./Pages/AddUOM";
 import EditUOM from "./Pages/EditUOM";
+import ReceiveGRN from "./Pages/ReceiveGRN";
+import DirectGrn from "./Pages/DirectGrn";
+import AddDirectGrn from "./Pages/AddDirectGrn";
+import ViewDirectGrn from "./Pages/ViewDirectGrn";
+import ReceiveDirectGRN from "./Pages/ReceiveDirectGrn";
 //import InwardUpdate from "./Pages/InwardUpdate";
 
 
@@ -87,7 +92,14 @@ export default function App() {
       
          
          <Route exact path="/uom" element={<AddUOM/>}/>
-         L<Route exact path="/edit-uom/:id" element={<EditUOM/>}/>
+         <Route exact path="/edit-uom/:id" element={<EditUOM/>}/>
+
+         <Route exact path="/grn/:id" element={<ReceiveGRN/>}/>
+         <Route exact path="/direct-grn" element={<DirectGrn/>}/>
+         <Route exact path='/add-grn' element={<AddDirectGrn/>}/>
+         <Route exact path="/view-grn/:id" element={<ViewDirectGrn/>}/>
+         <Route exact path="/receivedirectgrn/:id" element={<ReceiveDirectGRN/>}/>
+         
          
          <Route exact path="/user-detail/:id" element={<UserDetail />} />
          <Route exact path="/edit-user/:id" element={<UserEdit />} />
